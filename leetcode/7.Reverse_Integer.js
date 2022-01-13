@@ -14,6 +14,7 @@ let reverse = function(x) {
     for (let string of xStr) {
         xArray.push(string)
     }
+    // 절반을 구해서 절반 기준으로 바꿔준다.
     let half = parseInt((xArray.length - 1) / 2)
     for (let i = 0; i <= half; i++) {
         let temp;
