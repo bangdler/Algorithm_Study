@@ -9,29 +9,33 @@ let results = 0;
 const columns = {};
 const drawSequence = [];
 
-// 기계가 뽑을 수 있는 세로로 된 배열로 재구성
-// 배열의 각 index 를 key, 각 배열의 같은 index 요소값을 모아 배열로 만들어 value로 하는 객체 만들
-function makeColumns(array) {
-    for (let i = 0; i < array.length; i++) {
-        columns[i+1] = [];
-    }
-    return;
+function solution(board, moves) {
+    inputColumns(board);
+    makeDrawSequence(moves);
+    return results;
 }
+
+// 기계가 뽑을 수 있는 세로로 된 배열로 재구성
+// 열 index : 열 인형 배열
 
 function inputColumns(array) {
     for (let i = 0; i < array.length; i++) {
         for (let j = 0; j < array.length; j ++) {
+            if(!columns[j+1]) {
+                columns[j+1] = [array[i][j]]
+                continue;
+            }
             columns[j+1].push(array[i][j])
         }
     }
     return;
 }
 
-//moves 의 작동 column 값을 받아 columns value 에서 선택될 인형값을 drawSequence 배열로 만든다. 배열에 추가하기 전 기존 배열의 마지막 값과 비교한다.
-
+// 각 move 마다 해당 열에서 draw 후 check
 function makeDrawSequence(moves) {
     moves.forEach(function(move) {
         let targetColumn = columns[move]
+        // 0 이 아닌 인형을 만나면 Draw 후 break;
         for (let i = 0; i < targetColumn.length; i++) {
             if (targetColumn[i] !== 0) {
                 checkDrawSequence(targetColumn[i])
@@ -57,11 +61,5 @@ function checkDrawSequence(puppet) {
     }
 }
 
-function solution(board, moves) {
-    makeColumns(board);
-    inputColumns(board);
-    makeDrawSequence(moves);
-    return results;
-}
 
 console.log(solution(board, moves))
