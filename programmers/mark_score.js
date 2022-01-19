@@ -16,39 +16,69 @@ function runMark(answerArray) {
 }
 
 // test case 로 구성된 object 를 key 순서대로 순회하여 채점, 각 점수로 구성된 scores 배열 반환.
+
+// function markAnswerEachCases(answer, testObject) {
+//     const testKey = Object.keys(testObject)
+//     let scores = [];
+//     for (let i = 0; i < testKey.length; i++) {
+//         let testArray = testObject[testKey[i]];
+//         scores.push(markTest(answer, testArray))
+//     }
+//     return scores;
+// }
+
 function markAnswerEachCases(answer, testObject) {
-    const testKey = Object.keys(testObject)
     let scores = [];
-    for (let i = 0; i < testKey.length; i++) {
-        let testArray = testObject[testKey[i]];
-        scores.push(markTest(answer, testArray))
+    for (let key in testObject) {
+        const testCase = testObject[key];
+        scores.push(markTest(answer, testCase))
     }
     return scores;
 }
 
 // 정답과 test 를 비교하여 점수를 반환한다.
+
+// function markTest(answer, testArr) {
+//     let repeatNumEach = testArr.length
+//     let n = answer.length
+//     let score = 0;
+//     for (let j = 0; j < n; j++) {
+//         let remainder = (j % repeatNumEach)
+//         if (answer[j] !== testArr[remainder]) continue;
+//         score += 1;
+//     }
+//     return score;
+// }
+
 function markTest(answer, testArr) {
-    let repeatNumEach = testArr.length
-    let n = answer.length
-    let score = 0;
-    for (let j = 0; j < n; j++) {
-        let remainder = (j % repeatNumEach)
-        if (answer[j] !== testArr[remainder]) continue;
-        score += 1;
-    }
+    let repeatNum = testArr.length
+    const markedTest = answer.filter((num, idx) => num === testArr[idx % repeatNum])
+    const score = markedTest.length
     return score;
 }
 
+
 // test 채점 결과 중에서 최고점을 받은 모든 test 의 index 를 오름차순 배열로 반환.
     // indexOf 는 배열에 해당 요소가 없는 경우 -1 을 반환한다.
+// function getMaxScoreIndex(scores) {
+//     const maxScore = Math.max(...scores);
+//     let maxIndexArr = [];
+//     let maxIndex = scores.indexOf(maxScore);
+//     while(maxIndex !== -1) {
+//         maxIndexArr.push(maxIndex + 1);
+//         maxIndex = scores.indexOf(maxScore, maxIndex + 1)
+//     }
+//     return maxIndexArr
+// }
+
 function getMaxScoreIndex(scores) {
     const maxScore = Math.max(...scores);
-    let maxIndexArr = [];
-    let maxIndex = scores.indexOf(maxScore);
-    while(maxIndex !== -1) {
-        maxIndexArr.push(maxIndex + 1);
-        maxIndex = scores.indexOf(maxScore, maxIndex + 1)
-    }
+    let maxIndexArr = []
+    scores.forEach((score, index) => {
+        if(score === maxScore){
+            maxIndexArr.push(index+1)
+        }
+    })
     return maxIndexArr
 }
 
