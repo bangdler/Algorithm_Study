@@ -29,5 +29,19 @@ function timeConversion(s) {
     return s.substring(0, 8)
 }
 
-let s = '07:12:12AM'
-console.log(timeConversion(s))
+function timeConversion2(s) {
+    const meridiem = s.substring(8, 9)
+    let sRemoveMeridiem = s.split('').slice(0, 8).join('')
+    let convergedS = sRemoveMeridiem.split(':')
+    let hour = convergedS[0]
+    if(meridiem === 'A' && hour === '12') {
+        convergedS[0] = '00'
+    }
+    else if (meridiem === 'P' && hour !== '12') {
+        convergedS[0] = (Number(hour) + 12).toString()
+    }
+    return convergedS.join(':')
+}
+
+let s = '07:05:45PM'
+console.log(timeConversion2(s))
