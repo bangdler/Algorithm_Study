@@ -1,5 +1,4 @@
 
-
 function getInput() {
     const fs = require('fs');
     const path = require('path');
@@ -13,6 +12,8 @@ function getInput() {
     const input = fs.readFileSync(filePath).toString().trim().split(/\n/).map(Number);
     return input;
 }
+
+// 피보나치는 앞의 두 항을 합한 값이 현재 항이므로, 앞의 두항의 0 호출, 1호출을 각각 더하면 된다.
 
 function run() {
     const [n, ...inputArr] = getInput()
