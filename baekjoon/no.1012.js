@@ -9,7 +9,7 @@ function getInput() {
     const filePath =
         process.platform === 'linux'
             ? '/dev/stdin'
-            : path.join(__dirname, `test_${numOfProblem}.txt`);
+            : path.join(__dirname, `/test/test_${numOfProblem}.txt`);
 
     const input = fs.readFileSync(filePath).toString().trim().split(/\n/).map(x => x.split(' ').map(Number));
     return input;
