@@ -20,11 +20,41 @@ function getInput() {
     return input;
 }
 
+const directions = {
+    0: {
+        up : [-1, 0],
+        right : [0, 1],
+        down : [1, 0],
+        left : [0, -1]
+    },
+
+    1: {
+        up : [0, 1],
+        right : [1, 0],
+        down : [0, -1],
+        left : [-1, 0]
+    },
+
+    2: {
+        up : [1, 0],
+        right : [0, -1],
+        down : [-1, 0],
+        left : [0, 1]
+    },
+
+    3: {
+        up : [0, -1],
+        right : [-1, 0],
+        down : [0, 1],
+        left : [1, 0]
+    }
+}
+
 function run() {
     const [mapSize, startInfo, ...mapInfo] = getInput()
     const [N, M] = mapSize
-    let searchMap = Array.from({length: N}, () => Array(M).fill(0) )
-    const cleanMap = clean(startInfo, mapInfo, mapSize, searchMap)
+    let visitedMap = Array.from({length: N}, () => Array(M).fill(0) )
+    const cleanMap = clean(startInfo, mapInfo, visitedMap)
 
     let answer = cleanMap.reduce((acc, cur) => {
         return acc + cur.filter(x => x === 'C').length
@@ -33,81 +63,85 @@ function run() {
     console.log(answer)
 }
 
-function clean(startInfo, map, mapSize, searchMap) {
+function clean(startInfo, map, visitedMap) {
     let [y, x, look] = startInfo
-    //현재위치 청소 (후진하는 경우 'C' 위치로 올 수 있다.)
-    if(map[y][x] !== 'C') {
-        map[y][x] = 'C'
-    }
+    let curInfo = startInfo
+    //현재위치 청소
+    map[y][x] = 'C'
+    visitedMap[y][x] = 1
 
     //탐색
-    let leftCheck;
-    let leftInfo;
-    let checkNum = 0;
-    // 왼쪽이 청소를 안한 빈칸이거나, 네방향을 모두 탐색할 때까지 왼쪽 확인
-    // 이미 탐색한 칸이면 회전만 한다.
-    while(!leftCheck && checkNum < 4) {
-        [leftCheck, leftInfo] = searchLeft(startInfo, map, mapSize)
-        if(checkNum === 2 && !leftCheck) {
-            break;
+    let checkNum = 0
+
+    while(true) {
+        // 왼쪽을 탐색한다. 비어있으면 앞으로 가서 청소.
+        const leftCoordinates = getCoordinates(curInfo, 'left')
+        if(checkLeft(leftCoordinates, map, visitedMap)) {
+            const leftInfo = turnLeftNGo(leftCoordinates, curInfo[2])
+            map[leftInfo[0]][leftInfo[1]] = 'C';
+            curInfo = leftInfo
+            checkNum = 0
+            continue
         }
-        startInfo = leftInfo
+        // 기탐색이거나 비어있지 않은 경우 제자리에서 턴
+
+        curInfo = turnLeft(curInfo)
         checkNum ++
-    }
 
-    // 왼쪽이 비었으면 왼쪽에서 다시 clean, 아니면 후진여부 확인
-    if(leftCheck) {
-        return clean(leftInfo, map, mapSize)
-    }
-    else {
-        const backInfo = searchBack(startInfo, map)
-        if(!backInfo) {
-            return map
+        if(checkNum === 4) {
+            // 네방향을 모두 봤을 때
+            const backCoordinates = getCoordinates(curInfo, 'down')
+            if(!checkBack(backCoordinates, map)) {
+                break;
+            }
+            const backInfo = [...backCoordinates, curInfo[2]]
+            curInfo = backInfo
+            checkNum = 0
+            continue;
         }
-        return clean(backInfo, map, mapSize)
     }
+    return map
 }
 
-function searchLeft(startInfo, map, mapSize) {
+function turnLeft(startInfo) {
     const [y, x, look] = startInfo
-    const leftDirections = {
-        0: [0, -1],
-        1: [1, 0],
-        2: [0, 1],
-        3: [-1, 0]
-    }
-
-    const leftY = y + leftDirections[look][0]
-    const leftX = x + leftDirections[look][1]
     const leftLook = look === 0 ? 3 : look-1
-
-    // 유효성 - 범위를 벗어나면 현재위치에서 돈다.
-    // if(leftY < 0 || leftX < 0 || leftY >= mapSize[0] || leftX >= mapSize[1]) {
-    //     return [false, [y, x, leftLook]]
-    // }
-
-    // 왼쪽 탐색
-    if(map[leftY][leftX] === 0) {
-        return [true, [leftY, leftX, leftLook]]
-    }
-    else {
-        return [false, [y, x, leftLook]]
-    }
+    return [y, x, leftLook]
 }
 
-function searchBack(startInfo, map) {
+function turnLeftNGo(leftCoordinates, look) {
+    const [leftY, leftX] = leftCoordinates
+    const leftLook = look === 0 ? 3 : look-1
+    return [leftY, leftX, leftLook]
+}
+
+function getCoordinates(startInfo, direction) {
     const [y, x, look] = startInfo
-    const backDirections = {
-        0: [-1, 0],
-        1: [0, -1],
-        2: [1, 0],
-        3: [0, 1]
-    }
-    const [backY, backX] = [y+backDirections[look][0], x+backDirections[look][1]]
-    if(map[backY][backX] === 1) {
+    const searchY = y + directions[look][direction][0]
+    const searchX = x + directions[look][direction][1]
+    return [searchY, searchX]
+}
+
+// 왼쪽좌표가 비어있는지, 이전에 탐색한적이 있는지 확인
+function checkLeft(leftCoordinates, map, visitedMap) {
+    const [leftY, leftX] = leftCoordinates
+
+    if(visitedMap[leftY][leftX] === 1) {
         return false
     }
-    return [backY, backX, look]
+    else {
+        visitedMap[leftY][leftX] = 1;
+        if(map[leftY][leftX] === 0) {
+            return true
+        }
+        return false
+    }
+}
+// 벽이 있는지 확인
+function checkBack(backCoordinates, map) {
+    const [y, x] = backCoordinates
+    if(map[y][x] === 1) return false
+    return true
 }
 
 run()
