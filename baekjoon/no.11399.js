@@ -1,3 +1,5 @@
+// 그리디
+
 function getInput() {
     const fs = require('fs');
     const path = require('path');

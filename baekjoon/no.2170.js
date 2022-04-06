@@ -1,3 +1,5 @@
+// 그리디
+
 function getInput() {
     const fs = require('fs');
     const path = require('path');
@@ -36,6 +38,7 @@ function run2() {
     console.log(sum)
 }
 
+// 메모리 초과
 function run() {
     const [[N], ...lines] = getInput()
 
