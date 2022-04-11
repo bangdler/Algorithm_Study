@@ -1,3 +1,5 @@
+//그리디 알고 풀었지만 못풀어서 좀 찾아봄.
+
 function getInput() {
     const fs = require('fs');
     const path = require('path');
@@ -15,37 +17,21 @@ function getInput() {
 function run() {
     const [[T], ...array] = getInput()
     const cases = Array.from({length:T}, (_, i) => [array[i*2], array[i*2+1]])
-
     let answers = [];
     cases.forEach(eachCase => {
         const [[N], ...[prices]] = eachCase;
-        let max = 0;
-        let buy = {}
-        for(let i = 0; i < N-1; i++) {
-            if(prices[i] <= prices[i+1]) { // 내일 주식보다 싸면 산다.
-                if(buy[prices[i]] === undefined) {
-                    buy[prices[i]] = 1
-                }
-                else {
-                    buy[prices[i]] += 1
-                }
+        let maxPrice = prices[N-1];
+        let maxProfit = 0;
+        // 마지막 값을 최대값으로 설정, 배열 뒤에서부터 비교하면서 최대값보다 작으면 차익실현, 최대값보다 크면 최대값을 업데이트해준다.
+        for(let i = N-2; i >= 0; i--) {
+            if(prices[i] < maxPrice) {
+                maxProfit += maxPrice - prices[i]
             }
-            else {
-                for(let price in buy) {
-                    let profit = (prices[i] - price) * buy[price]
-                    max += profit
-                }
-                buy ={}
+            if(prices[i] > maxPrice) {
+                maxPrice = prices[i]
             }
         }
-        // 마지막 날이 비쌀 경우
-        if(Object.keys(buy).length !== 0) {
-            for(let price in buy) {
-                let profit = (prices[N-1] - price) * buy[price]
-                max += profit
-            }
-        }
-        answers.push(max)
+        answers.push(maxProfit)
     })
     console.log(answers.join(`\n`))
 }
