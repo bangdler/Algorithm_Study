@@ -1,5 +1,6 @@
 
-// noSwap 변수를 활용해 최적화
+// 한번 순회 마다 제일 큰 수가 오른쪽 끝으로 정렬된다.
+// noSwap 변수를 활용해 최적화 - 순회 시 swap 이 없으면 정렬이 완료된 것.
 // 시간복잡도 - worst O(N^2), best O(N)
 
 function bubbleSort(array) {
