@@ -1,4 +1,3 @@
-
 // 셀수있는 수량의 순서있는 열거 또는 어떤 순서를 따르는 요소들의 모음을 튜플(tuple)이라고 합니다. n개의 요소를 가진 튜플을 n-튜플(n-tuple)이라고 하며,
 // 다음과 같이 표현할 수 있습니다.
 // (a1, a2, a3, ..., an)
@@ -26,74 +25,69 @@
 // 2. 배열을 순회하면서 길이를 구하고 길이가 1인 원소부터 정답 배열과 비교하여 없는 값을 추가한다.
 
 function parseS(s) {
-    let sArray = s.split('');
-    let parent = [];
-    let element = '';
-    // 문자열을 {, 숫자, } 로만 이루어진 배열로 변환한다.
-    sArray.forEach(function(str) {
-        if(str === '{') {
-            parent.push(str)
-        }
-        else if(str === '}') {
-            if(element.length !== 0){
-                parent.push(element)
-                element = ''
-            }
-            parent.push(str)
-        }
-        else if(str === ',') {
-            if(element.length !== 0){
-                parent.push(element)
-                element = ''
-            }
-        }
-        else {
-            element += str;
-        }
-    })
-    //console.log(sArray)
-    //console.log(parent)
-    // 변환된 문자열을 원소 갯수에 따른 tuple 배열을 담은 배열로 변환.
-    let tupleArray = [];
-    let current;
-    parent.forEach(function(str) {
-        if(str === '{') {
-            current = new Array();
-        }
-        else if(str === '}') {
-            if(current.length !== 0) {
-                tupleArray.push(current)
-            }
-            current = [];
-        }
-        else {
-            current.push(Number(str));
-        }
-    })
-    //console.log(tupleArray)
-    // tuple 길이를 key 로 배열을 value 로 하는 객체를 만든다.
-    // key 를 이용하여 객체 순회, 길이가 1인 배열부터 검색해서 없는 숫자를 result에 넣는다.
-    let tupleLengthObject = {};
-    tupleArray.forEach(function(array) {
-        let length = array.length;
-        tupleLengthObject[length] = array;
-    })
-    //console.log(tupleLengthObject)
-    let maxLength = Object.keys(tupleLengthObject).length
-    let result = [];
-    for(let i = 1; i <= maxLength; i++) {
-        let array = tupleLengthObject[i];
-        array.forEach(function(num){
-            if(result.includes(num) === false) {
-                result.push(num)
-                return;
-            }
-        })
+  let sArray = s.split('');
+  let parent = [];
+  let element = '';
+  // 문자열을 {, 숫자, } 로만 이루어진 배열로 변환한다.
+  sArray.forEach(function (str) {
+    if (str === '{') {
+      parent.push(str);
+    } else if (str === '}') {
+      if (element.length !== 0) {
+        parent.push(element);
+        element = '';
+      }
+      parent.push(str);
+    } else if (str === ',') {
+      if (element.length !== 0) {
+        parent.push(element);
+        element = '';
+      }
+    } else {
+      element += str;
     }
-    //console.log(result)
-    return result;
+  });
+  //console.log(sArray)
+  //console.log(parent)
+  // 변환된 문자열을 원소 갯수에 따른 tuple 배열을 담은 배열로 변환.
+  let tupleArray = [];
+  let current;
+  parent.forEach(function (str) {
+    if (str === '{') {
+      current = new Array();
+    } else if (str === '}') {
+      if (current.length !== 0) {
+        tupleArray.push(current);
+      }
+      current = [];
+    } else {
+      current.push(Number(str));
+    }
+  });
+  //console.log(tupleArray)
+  // tuple 길이를 key 로 배열을 value 로 하는 객체를 만든다.
+  // key 를 이용하여 객체 순회, 길이가 1인 배열부터 검색해서 없는 숫자를 result에 넣는다.
+  let tupleLengthObject = {};
+  tupleArray.forEach(function (array) {
+    let length = array.length;
+    tupleLengthObject[length] = array;
+  });
+  //console.log(tupleLengthObject)
+  let maxLength = Object.keys(tupleLengthObject).length;
+  let result = [];
+  for (let i = 1; i <= maxLength; i++) {
+    let array = tupleLengthObject[i];
+    array.forEach(function (num) {
+      if (result.includes(num) === false) {
+        result.push(num);
+        return;
+      }
+    });
+  }
+  //console.log(result)
+  return result;
 }
 
-const s = "{{4,2,3},{3},{2,3,4,1},{2,3}}";
+const s = '{{4,2,3},{3},{2,3,4,1},{2,3}}';
 
-parseS(s)
+parseS(s);

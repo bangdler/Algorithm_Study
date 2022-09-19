@@ -1,4 +1,3 @@
-
 /* 게시판 불량 이용자를 신고하고 처리 결과를 메일로 발송하는 시스템
 
 유저 list, 신고한 report(신고한 사람, 신고당한 사람), 게시판 정지 limit(k) 가 주어진다.
@@ -17,42 +16,41 @@ k번 이상 신고당하여 정지되는 경우, 정지당하도록 신고한 �
  */
 
 function solution(id_list, report, k) {
-    let answer;
-    let id_obj = {};
-    id_list.forEach((id) => id_obj[id] = 0)
+  let answer;
+  let id_obj = {};
+  id_list.forEach(id => (id_obj[id] = 0));
 
-    //중복제거
-    let reportSet = new Set(report);
-    let reportArr = [];
-    reportSet.forEach((words) => reportArr.push(words.split(' ')))
+  //중복제거
+  let reportSet = new Set(report);
+  let reportArr = [];
+  reportSet.forEach(words => reportArr.push(words.split(' ')));
 
-    let report_obj = {};
-    reportArr.forEach(function(arr) {
-        const reporter = arr[0];
-        const reported = arr[1];
-        if (report_obj[reported] === undefined) {
-            report_obj[reported] = {
-                count: 1,
-                reporterArr: [reporter]
-            }
-        }
-        else {
-            report_obj[reported].count += 1;
-            report_obj[reported].reporterArr.push(reporter);
-        }
-    })
-
-    for(let key in report_obj) {
-        if(report_obj[key].count >= k) {
-            report_obj[key].reporterArr.forEach((name) => id_obj[name] += 1)
-        }
+  let report_obj = {};
+  reportArr.forEach(function (arr) {
+    const reporter = arr[0];
+    const reported = arr[1];
+    if (report_obj[reported] === undefined) {
+      report_obj[reported] = {
+        count: 1,
+        reporterArr: [reporter],
+      };
+    } else {
+      report_obj[reported].count += 1;
+      report_obj[reported].reporterArr.push(reporter);
     }
+  });
 
-    answer = Object.values(id_obj)
-    return answer;
+  for (let key in report_obj) {
+    if (report_obj[key].count >= k) {
+      report_obj[key].reporterArr.forEach(name => (id_obj[name] += 1));
+    }
+  }
+
+  answer = Object.values(id_obj);
+  return answer;
 }
 
-const id_list = ["muzi", "frodo", "apeach", "neo"]
-const report = ["muzi frodo","apeach frodo","frodo neo","muzi neo","apeach muzi", "muzi frodo"];
-const k = 2
-solution(id_list, report, k)
+const id_list = ['muzi', 'frodo', 'apeach', 'neo'];
+const report = ['muzi frodo', 'apeach frodo', 'frodo neo', 'muzi neo', 'apeach muzi', 'muzi frodo'];
+const k = 2;
+solution(id_list, report, k);

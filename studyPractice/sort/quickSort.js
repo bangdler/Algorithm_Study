@@ -9,26 +9,26 @@
 // 이후 pivot 과 pivot index만 바꿔주면 pivot 을 기준으로 왼쪽은 작은 수 오른쪽은 큰 수가 된다.
 
 function pivot(array, start = 0, end = array.length - 1) {
-    const swap = (array, idx1, idx2) => {
-        const temp = array[idx1];
-        array[idx1] = array[idx2];
-        array[idx2] = temp;
+  const swap = (array, idx1, idx2) => {
+    const temp = array[idx1];
+    array[idx1] = array[idx2];
+    array[idx2] = temp;
+  };
+  let pivot = array[start];
+  let pivotIdx = start;
+  console.log('===pivot 시작===');
+  // left 배열 pivotIndex - 1 로 매개변수 지정하므로 <= end 로 한다.
+  for (let i = start + 1; i <= end; i++) {
+    if (pivot > array[i]) {
+      pivotIdx++;
+      console.log('현재 array', array);
+      swap(array, pivotIdx, i);
+      console.log('pivot 이동', array[pivotIdx], '<->', array[i], array);
     }
-    let pivot = array[start];
-    let pivotIdx = start;
-    console.log("===pivot 시작===")
-    // left 배열 pivotIndex - 1 로 매개변수 지정하므로 <= end 로 한다.
-    for(let i = start + 1; i <= end; i++) {
-        if(pivot > array[i]) {
-            pivotIdx++;
-            console.log('현재 array', array)
-            swap(array, pivotIdx, i)
-            console.log('pivot 이동', array[pivotIdx],"<->",array[i], array)
-        }
-    }
-    swap(array, start, pivotIdx)
-    console.log('최종 pivot 이동', array[start],"<->",array[pivotIdx], array)
-    return pivotIdx
+  }
+  swap(array, start, pivotIdx);
+  console.log('최종 pivot 이동', array[start], '<->', array[pivotIdx], array);
+  return pivotIdx;
 }
 
 // pivot([7,8,5,3,19,4])
@@ -43,15 +43,15 @@ function pivot(array, start = 0, end = array.length - 1) {
 // pivot 을 어떤 기준으로 하냐에 따라 다르다.
 // 공간복잡도 - O(logN)
 function quickSort(array, left = 0, right = array.length - 1) {
-    // left = right 이면 정렬한 배열의 길이가 1이라는 의미
-    if(left < right) {
-        // 정렬한 pivotIndex 를 기점으로 반 씩 다시 정렬
-        let pivotIndex = pivot(array, left, right);
-        quickSort(array, left, pivotIndex - 1);
-        quickSort(array, pivotIndex + 1, right);
-    }
-    console.log("최종",array)
-    return array
+  // left = right 이면 정렬한 배열의 길이가 1이라는 의미
+  if (left < right) {
+    // 정렬한 pivotIndex 를 기점으로 반 씩 다시 정렬
+    let pivotIndex = pivot(array, left, right);
+    quickSort(array, left, pivotIndex - 1);
+    quickSort(array, pivotIndex + 1, right);
+  }
+  console.log('최종', array);
+  return array;
 }
 
-quickSort([7,8,5,3,19,4])
+quickSort([7, 8, 5, 3, 19, 4]);

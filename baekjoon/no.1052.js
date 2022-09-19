@@ -1,4 +1,3 @@
-
 // 지민이는 N개의 물병을 가지고 있다. 각 물병에는 물을 무한대로 부을 수 있다. 처음에 모든 물병에는 물이 1리터씩 들어있다.
 // 지민이는 이 물병을 또 다른 장소로 옮기려고 한다. 지민이는 한 번에 K개의 물병을 옮길 수 있다.
 // 하지만, 지민이는 물을 낭비하기는 싫고, 이동을 한 번보다 많이 하기는 싫다.
@@ -14,84 +13,81 @@
  6. 이진수 배열을 십진수로 바꾼 후 N 을 뺀다.
  */
 function getInput() {
-    const fs = require('fs');
-    const input = fs.readFileSync('/dev/stdin').toString().split(' ');
-    return input;
+  const fs = require('fs');
+  const input = fs.readFileSync('/dev/stdin').toString().split(' ');
+  return input;
 }
 
 function getAddedCup(N, K) {
-    const binN = dec2bin(N);
-    let minCup = 0;
-    binN.forEach((bool) => {
-        if(bool) {
-            minCup += 1
-        }
-    })
-    if(minCup <= K) return 0;
-    let binAddCup = [];
-    let diff = minCup - K;
-    let numTrue = 0;
-    let addIndex = 0;
-    // 순차적으로 돌면서 새로운 배열을 만든다.
-    // 최소 cup 수와의 차이만큼 1을 줄여야하므로 1의 개수가 diff 보다 클 때까지 0을 넣다가 그 이후의 1을 한번만 1로 바꿔준다.
-    // 값을 바꿔준다면 addIndex에 바뀐 위치가 기록되고 그 이후부터는 원래 값을 넣어준다.
-    for(let i = 0; i < binN.length; i++) {
-        if(numTrue > diff) {
-            if(!binN[i] && addIndex === 0) {
-                binAddCup.push(true);
-                addIndex = i;
-            }
-            else if(addIndex !== 0) {
-                binAddCup.push(binN[i])
-            }
-            else {
-                binAddCup.push(false)
-            }
-        }
-        else {
-            binAddCup.push(false)
-        }
-        if(binN[i]) numTrue += 1;
+  const binN = dec2bin(N);
+  let minCup = 0;
+  binN.forEach(bool => {
+    if (bool) {
+      minCup += 1;
     }
-    // 중간값 중 건드린게 없을 경우 맨 앞에 1을 추가한다. 그리고 그 사이의 값을 모두 0으로 바꿔준다.
-    if(addIndex === 0) {
-        binAddCup.push(true)
+  });
+  if (minCup <= K) return 0;
+  let binAddCup = [];
+  let diff = minCup - K;
+  let numTrue = 0;
+  let addIndex = 0;
+  // 순차적으로 돌면서 새로운 배열을 만든다.
+  // 최소 cup 수와의 차이만큼 1을 줄여야하므로 1의 개수가 diff 보다 클 때까지 0을 넣다가 그 이후의 1을 한번만 1로 바꿔준다.
+  // 값을 바꿔준다면 addIndex에 바뀐 위치가 기록되고 그 이후부터는 원래 값을 넣어준다.
+  for (let i = 0; i < binN.length; i++) {
+    if (numTrue > diff) {
+      if (!binN[i] && addIndex === 0) {
+        binAddCup.push(true);
+        addIndex = i;
+      } else if (addIndex !== 0) {
+        binAddCup.push(binN[i]);
+      } else {
+        binAddCup.push(false);
+      }
+    } else {
+      binAddCup.push(false);
     }
-    const totalCup = bin2dec(binAddCup)
-    const addedCup = totalCup - N;
-    return addedCup;
+    if (binN[i]) numTrue += 1;
+  }
+  // 중간값 중 건드린게 없을 경우 맨 앞에 1을 추가한다. 그리고 그 사이의 값을 모두 0으로 바꿔준다.
+  if (addIndex === 0) {
+    binAddCup.push(true);
+  }
+  const totalCup = bin2dec(binAddCup);
+  const addedCup = totalCup - N;
+  return addedCup;
 }
 
 function run() {
-    const input = getInput();
-    console.log(getAddedCup(input[0], input[1]))
+  const input = getInput();
+  console.log(getAddedCup(input[0], input[1]));
 }
 
 //console.log(getAddedCup(10000000 ,3))
-run()
+run();
 
 function dec2bin(dec) {
-    let answer = [];
-    let target = dec;
-    if(target === 0) answer.push(false);
-    while(target !== 0) {
-        let remainder = target % 2;
-        let quotient = (target - remainder) / 2;
-        let bool = (remainder)? true : false;
-        target = quotient;
-        answer.push(bool)
-    }
-    return answer;
+  let answer = [];
+  let target = dec;
+  if (target === 0) answer.push(false);
+  while (target !== 0) {
+    let remainder = target % 2;
+    let quotient = (target - remainder) / 2;
+    let bool = remainder ? true : false;
+    target = quotient;
+    answer.push(bool);
+  }
+  return answer;
 }
 
 function bin2dec(bin) {
-    let answer = 0;
-    bin.forEach(function(bool, index) {
-        if(bool) {
-            answer += 2**index
-        }
-    })
-    return answer;
+  let answer = 0;
+  bin.forEach(function (bool, index) {
+    if (bool) {
+      answer += 2 ** index;
+    }
+  });
+  return answer;
 }
 
 // 위의 방식은 이진법의 아랫자리에서부터 1 을 세어가면서 개수를 맞춰주는 방식인데, 코드 리뷰를 하다보니 윗자리부터 세는게 나은 것 같다.

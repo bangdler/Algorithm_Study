@@ -1,4 +1,3 @@
-
 'use strict';
 
 // const fs = require('fs');
@@ -32,14 +31,14 @@
 
 // 행렬 대각선의 합의 차이 구하기
 function diagonalDifference(arr) {
-    // 한 행당 2개씩 뽑는다. i행의 i번째와 (n-1)-i번째
-    let diagonal1 = 0;
-    let diagonal2 = 0;
-    arr.forEach(function(row, idx) {
-        diagonal1 += row[idx]
-        diagonal2 += row[arr.length-1-idx]
-    })
-    return Math.abs(diagonal1 - diagonal2)
+  // 한 행당 2개씩 뽑는다. i행의 i번째와 (n-1)-i번째
+  let diagonal1 = 0;
+  let diagonal2 = 0;
+  arr.forEach(function (row, idx) {
+    diagonal1 += row[idx];
+    diagonal2 += row[arr.length - 1 - idx];
+  });
+  return Math.abs(diagonal1 - diagonal2);
 }
 
 // function main() {
@@ -60,11 +59,14 @@ function diagonalDifference(arr) {
 //     ws.end();
 // }
 
-let n = 2
+let n = 2;
 let arr = Array(n);
-let read = '11 2 4'
+let read = '11 2 4';
 for (let i = 0; i < n; i++) {
-    arr[i] = read.replace(/\s+$/g, '').split(' ').map(arrTemp => parseInt(arrTemp, 10));
+  arr[i] = read
+    .replace(/\s+$/g, '')
+    .split(' ')
+    .map(arrTemp => parseInt(arrTemp, 10));
 }
 
-console.log(arr)
+console.log(arr);

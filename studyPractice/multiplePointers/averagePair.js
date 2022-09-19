@@ -14,24 +14,23 @@
 // averagePair([-1,0,3,4,5,6], 4.1) // false
 // averagePair([],4) // false
 
-function averagePair(nums, targetAvg){
-    // add whatever parameters you deem necessary - good luck!
-    if(!nums.length) return false;
-    let i = 0;
-    let j = nums.length - 1;
-    while(i < j) {
-        let curAvg = (nums[i] + nums[j])/2
-        if(curAvg === targetAvg) return true
-        if(curAvg < targetAvg) {
-            i++
-            continue;
-        }
-        else {
-            j--
-            continue;
-        }
+function averagePair(nums, targetAvg) {
+  // add whatever parameters you deem necessary - good luck!
+  if (!nums.length) return false;
+  let i = 0;
+  let j = nums.length - 1;
+  while (i < j) {
+    let curAvg = (nums[i] + nums[j]) / 2;
+    if (curAvg === targetAvg) return true;
+    if (curAvg < targetAvg) {
+      i++;
+      continue;
+    } else {
+      j--;
+      continue;
     }
-    return false;
+  }
+  return false;
 }
 
-console.log(averagePair([-1,0,3,4,5,6], 4.1) )
+console.log(averagePair([-1, 0, 3, 4, 5, 6], 4.1));

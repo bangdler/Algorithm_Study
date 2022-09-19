@@ -1,4 +1,3 @@
-
 // 두점으로 부터 겹칠 수 있는 한 점의 수 구하기
 //A 좌표 (x1, y1)와 B 좌표 (x2, y2)가 주어지고, A-C 거리 r1과 B-C 거리 r2가 주어졌을 때, 있을 수 있는 C 좌표의 수를 출력
 
@@ -23,55 +22,49 @@
 
 //test case ./test_1002.txt
 function getInput() {
-    const fs = require('fs');
-    const input=fs.readFileSync('/dev/stdin').toString().trim().split(/\s+/);
-    const [n,...arr]=input
-    return [n, ...arr];
+  const fs = require('fs');
+  const input = fs.readFileSync('/dev/stdin').toString().trim().split(/\s+/);
+  const [n, ...arr] = input;
+  return [n, ...arr];
 }
 
 function run() {
-    const input = getInput();
-    const n = input[0];
-    const data = input.slice(1).map((x) => (Number(x)))
-    let index = 0;
-    for(let i = 0; i < n; i++) {
-        const array = data.slice(index, index+6);
-        const answer = getNumberOfMeet(array);
-        console.log(answer)
-        index = index + 6;
-    }
+  const input = getInput();
+  const n = input[0];
+  const data = input.slice(1).map(x => Number(x));
+  let index = 0;
+  for (let i = 0; i < n; i++) {
+    const array = data.slice(index, index + 6);
+    const answer = getNumberOfMeet(array);
+    console.log(answer);
+    index = index + 6;
+  }
 }
 
 function getNumberOfMeet(array) {
-    const [x1, y1, r1, x2, y2, r2] = array;
-    const d = Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2));
-    const R = r1 >= r2? r1 : r2;
-    let meetNum = 0;
-    if(d === 0) {
-        meetNum = r1===r2? -1 : 0;
+  const [x1, y1, r1, x2, y2, r2] = array;
+  const d = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+  const R = r1 >= r2 ? r1 : r2;
+  let meetNum = 0;
+  if (d === 0) {
+    meetNum = r1 === r2 ? -1 : 0;
+  } else {
+    if (d > R) {
+      if (r1 + r2 === d) {
+        meetNum = 1;
+      } else if (r1 + r2 > d) {
+        meetNum = 2;
+      } else meetNum = 0;
+    } else {
+      let diff = Math.abs(r1 - r2);
+      if (diff === d) {
+        meetNum = 1;
+      } else if (diff > d) {
+        meetNum = 0;
+      } else meetNum = 2;
     }
-    else{
-        if(d > R) {
-            if(r1 + r2 === d) {
-                meetNum = 1;
-            }
-            else if(r1 + r2 > d) {
-                meetNum = 2;
-            }
-            else meetNum = 0;
-        }
-        else {
-            let diff = Math.abs(r1 - r2)
-            if(diff === d) {
-                meetNum = 1;
-            }
-            else if(diff > d) {
-                meetNum = 0;
-            }
-            else meetNum = 2;
-        }
-    }
-    return meetNum;
+  }
+  return meetNum;
 }
 
 //run();
@@ -79,29 +72,31 @@ function getNumberOfMeet(array) {
 // 백준용 readline
 
 function runBaekjoon() {
-    const readline = require('readline');
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-    });
-    let data = [];
-    rl.on('line', function (line){
-        let input = line.trim().split(' ').map((el) => el);
-        data.push(...input)
-
-    });
-    rl.on('close', function() {
-        let n = data[0];
-        let dataLocation = data.slice(1).map((x) => (Number(x)))
-        let index = 0;
-        for (let i = 0; i < n; i++) {
-            const array = dataLocation.slice(index, index + 6);
-            const answer = getNumberOfMeet(array);
-            console.log(answer)
-            index = index + 6;
-        }
-        process.exit();
-    })
+  const readline = require('readline');
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+  let data = [];
+  rl.on('line', function (line) {
+    let input = line
+      .trim()
+      .split(' ')
+      .map(el => el);
+    data.push(...input);
+  });
+  rl.on('close', function () {
+    let n = data[0];
+    let dataLocation = data.slice(1).map(x => Number(x));
+    let index = 0;
+    for (let i = 0; i < n; i++) {
+      const array = dataLocation.slice(index, index + 6);
+      const answer = getNumberOfMeet(array);
+      console.log(answer);
+      index = index + 6;
+    }
+    process.exit();
+  });
 }
 
 runBaekjoon();

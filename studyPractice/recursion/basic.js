@@ -8,12 +8,12 @@
 // power(2,4) // 16
 
 function power(base, exponent) {
-    if(exponent === 0) return 1
-    exponent--
-    return base * power(base, exponent)
+  if (exponent === 0) return 1;
+  exponent--;
+  return base * power(base, exponent);
 }
 
-console.log(power(2, 2))
+console.log(power(2, 2));
 
 // Write a function factorial which accepts a number and returns the factorial of that number.
 // A factorial is the product of an integer and all the integers below it;
@@ -26,8 +26,8 @@ console.log(power(2, 2))
 // factorial(7) // 5040
 
 function factorial(num) {
-    if(num === 0) return 1
-    return num * factorial(num-1)
+  if (num === 0) return 1;
+  return num * factorial(num - 1);
 }
 
 // Write a function called productOfArray which takes in an array of numbers and returns the product of them all.
@@ -35,19 +35,19 @@ function factorial(num) {
 // productOfArray([1,2,3,10]) // 60
 
 function productOfArray(array) {
-    if(array.length === 1) return array.pop()
-    return array.pop() * productOfArray(array)
+  if (array.length === 1) return array.pop();
+  return array.pop() * productOfArray(array);
 }
 
-console.log(productOfArray([1,2,3]))
+console.log(productOfArray([1, 2, 3]));
 
 // Write a function called recursiveRange which accepts a number and adds up all the numbers from 0 to the number passed to the function
 // recursiveRange(6) // 21
 // recursiveRange(10) // 55
 
 function recursiveRange(num) {
-    if(num === 1) return num
-    return num + recursiveRange(num-1)
+  if (num === 1) return num;
+  return num + recursiveRange(num - 1);
 }
 
 // Write a recursive function called fib which accepts a number and returns the nth number in the Fibonacci sequence.
@@ -59,9 +59,9 @@ function recursiveRange(num) {
 // fib(28) // 317811
 // fib(35) // 9227465
 
-const fibObj = {1: 1, 2:1}
-function fib(n){
-    if(fibObj[n]) return fibObj[n]
-    fib[n] = fib(n-1) + fib(n-2)
-    return fib[n]
+const fibObj = { 1: 1, 2: 1 };
+function fib(n) {
+  if (fibObj[n]) return fibObj[n];
+  fib[n] = fib(n - 1) + fib(n - 2);
+  return fib[n];
 }

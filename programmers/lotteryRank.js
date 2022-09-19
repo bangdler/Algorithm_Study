@@ -1,4 +1,3 @@
-
 // 로또의 최고순위와 최저순위를 반환하는 함수.
 // 일부 숫자가 지워져 0 으로 기록된 lottos 를 입력 받고, 0에 들어가는 숫자 경우의 수를 따져 win_nums 를 기준으로 최고 등수와 최저 등수를 구한다.
 
@@ -14,35 +13,35 @@
 //     win_nums의 원소들은 정렬되어 있지 않을 수도 있습니다.
 
 function solution(lottos, win_nums) {
-    let answer = [0, 0];
-    let rank = {
-        6: 1,
-        5: 2,
-        4: 3,
-        3: 4,
-        2: 5,
-        1: 6,
-        0: 6
+  let answer = [0, 0];
+  let rank = {
+    6: 1,
+    5: 2,
+    4: 3,
+    3: 4,
+    2: 5,
+    1: 6,
+    0: 6,
+  };
+  let correctNum = 0;
+  let zeroNum = 0;
+  // 주어진 번호로 최저등수 구하기
+  lottos.forEach(function (num) {
+    if (win_nums.includes(num)) {
+      correctNum += 1;
     }
-    let correctNum = 0;
-    let zeroNum = 0;
-    // 주어진 번호로 최저등수 구하기
-    lottos.forEach(function(num) {
-        if(win_nums.includes(num)) {
-            correctNum += 1;
-        }
-        if(num === 0) {
-            zeroNum += 1;
-        }
-    })
-    answer[1] = rank[correctNum];
-    // 최고 등수 구하기. 0 갯수를 맞은 갯수로 바꾼다.
-    correctNum += zeroNum;
-    answer[0] = rank[correctNum];
-    return answer;
+    if (num === 0) {
+      zeroNum += 1;
+    }
+  });
+  answer[1] = rank[correctNum];
+  // 최고 등수 구하기. 0 갯수를 맞은 갯수로 바꾼다.
+  correctNum += zeroNum;
+  answer[0] = rank[correctNum];
+  return answer;
 }
 
 let lotto = [44, 1, 0, 0, 31, 25];
 let win = [31, 10, 45, 1, 6, 19];
 
-console.log(solution(lotto, win))
+console.log(solution(lotto, win));

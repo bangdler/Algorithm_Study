@@ -7,20 +7,20 @@
 
 // 자릿수에 해당되는 숫자를 구하는 함수, 1의 자리 -> i = 0, 없는 경우 0 반환
 function getDigitNum(num, i) {
-    return Math.floor(Math.abs(num) / Math.pow(10, i)) % 10
+  return Math.floor(Math.abs(num) / Math.pow(10, i)) % 10;
 }
 // console.log(getDigit(123, 1)) // 결과: 2
 
 // 숫자의 자릿수를 구하는 함수
 function getDigitCount(num) {
-    if(num === 0) return 1
-    return Math.floor(Math.log10(Math.abs(num))) + 1
+  if (num === 0) return 1;
+  return Math.floor(Math.log10(Math.abs(num))) + 1;
 }
 //console.log(countDigit(123)) // 결과: 3
 
 // 숫자 배열에서 가장 큰 자릿수를 구하는 함수
 function getMaxDigitCount(numArray) {
-    return numArray.reduce((acc, cur) => Math.max(acc, getDigitCount(cur)),0)
+  return numArray.reduce((acc, cur) => Math.max(acc, getDigitCount(cur)), 0);
 }
 //console.log(getMostDigitCount([1, 123, 22, 1256, 12312313, 2])) // 결과: 8
 
@@ -30,23 +30,23 @@ function getMaxDigitCount(numArray) {
 // 외부 루프 : 최대자릿수만큼 순회, 0~9 까지 자릿수를 담을 빈 버킷 배열을 만들고, 루프마다 내부 루프 순회 후 버킷 배열을 합친 배열로 다시 루프를 돈다.
 // 내부 루프 : 각 숫자마다 현재 순회 중인 자릿수의 숫자를 구해 해당 버킷에 담는다.
 function radixSort(numArray) {
-    let maxDigitCount =  getMaxDigitCount(numArray)
-    // 0부터 최대자릿수까지 순회
-    for(let k = 0; k < maxDigitCount; k++) {
-        // 버킷 배열 생성
-        let digitBuckets = Array.from({length:10}, () => [])
-        // 각 숫자 순회하면서 버킷에 담기
-        for(let i = 0; i < numArray.length; i++) {
-            const curNum = numArray[i]
-            const curDigitNum = getDigitNum(curNum, k)
-            digitBuckets[curDigitNum].push(curNum)
-        }
-        console.log("버켓 담기 완료",digitBuckets)
-        // 버켓 합쳐 새 배열 만들기
-        numArray = [].concat(...digitBuckets)
-        console.log("배열 합치기", numArray)
+  let maxDigitCount = getMaxDigitCount(numArray);
+  // 0부터 최대자릿수까지 순회
+  for (let k = 0; k < maxDigitCount; k++) {
+    // 버킷 배열 생성
+    let digitBuckets = Array.from({ length: 10 }, () => []);
+    // 각 숫자 순회하면서 버킷에 담기
+    for (let i = 0; i < numArray.length; i++) {
+      const curNum = numArray[i];
+      const curDigitNum = getDigitNum(curNum, k);
+      digitBuckets[curDigitNum].push(curNum);
     }
-    console.log("최종 정렬", numArray)
-    return numArray
+    console.log('버켓 담기 완료', digitBuckets);
+    // 버켓 합쳐 새 배열 만들기
+    numArray = [].concat(...digitBuckets);
+    console.log('배열 합치기', numArray);
+  }
+  console.log('최종 정렬', numArray);
+  return numArray;
 }
-radixSort([12, 2, 1, 24, 222, 32, 2345])
+radixSort([12, 2, 1, 24, 222, 32, 2345]);

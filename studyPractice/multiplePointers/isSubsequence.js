@@ -14,30 +14,29 @@
 // Space Complexity - O(1)
 
 function isSubsequence(str1, str2) {
-    // good luck. Add any arguments you deem necessary.
-    let i = 0;
-    let j = 0;
-    while(i < str1.length && j < str2.length) {
-        if(str1[i] === str2[j]) {
-            i++;
-            j++;
-            continue;
-        }
-        else {
-            j++;
-            continue;
-        }
+  // good luck. Add any arguments you deem necessary.
+  let i = 0;
+  let j = 0;
+  while (i < str1.length && j < str2.length) {
+    if (str1[i] === str2[j]) {
+      i++;
+      j++;
+      continue;
+    } else {
+      j++;
+      continue;
     }
-    if(i !== str1.length) return false;
-    return true;
+  }
+  if (i !== str1.length) return false;
+  return true;
 }
 
 // 재귀
 function isSubsequence2(str1, str2) {
-    if(str1.length === 0) return true
-    if(str2.length === 0) return false
-    if(str2[0] === str1[0]) return isSubsequence(str1.slice(1), str2.slice(1))
-    return isSubsequence(str1, str2.slice(1))
+  if (str1.length === 0) return true;
+  if (str2.length === 0) return false;
+  if (str2[0] === str1[0]) return isSubsequence(str1.slice(1), str2.slice(1));
+  return isSubsequence(str1, str2.slice(1));
 }
 
-console.log(isSubsequence('abc', 'acb'))
+console.log(isSubsequence('abc', 'acb'));
