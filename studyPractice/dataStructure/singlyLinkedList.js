@@ -73,7 +73,7 @@ class SinglyLinkedList {
 
   // 시간복잡도 O(N)
   get(index) {
-    if (typeof index !== 'number' || index < 0 || index >= this.length) return undefined;
+    if (typeof index !== 'number' || !Number.isInteger(index) || index < 0 || index >= this.length) return undefined;
     let current = this.head;
     let counter = 0;
     while (counter !== index) {
@@ -85,7 +85,7 @@ class SinglyLinkedList {
 
   set(index, value) {
     const foundNode = this.get(index);
-    if (typeof index !== 'number' || !foundNode) return false;
+    if (!foundNode) return false;
     foundNode.value = value;
     return true;
   }
@@ -106,7 +106,7 @@ class SinglyLinkedList {
 
   // 시간복잡도 O(1) ~ O(N)
   remove(index) {
-    if (typeof index !== 'number' || index < 0 || index >= this.length) return undefined;
+    if (typeof index !== 'number' || !Number.isInteger(index) || index < 0 || index >= this.length) return undefined;
     if (index === 0) return this.shift();
     if (index === this.length - 1) return this.pop();
 
