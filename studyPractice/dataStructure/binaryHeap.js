@@ -1,11 +1,15 @@
-// binary tree 와 다르게 부모 요소를 기준으로 자식 요소는 동등하다. 2개 모두 채워야 다음 depth 로 간다.
-// max binary heap : 자식요소는 부모요소보다 작다.
-// min binary heap : 자식요소는 부모요소보다 크다.
+// binary tree 와 다르게 부모 요소를 기준으로 자식 요소는 동등하다.
+// 자식요소 2개 모두 채워야 다음 depth 로 간다. -> 비정상 구조 tree 를 만들지 않는다.
+// max binary heap : 부모요소는 항상 자식요소보다 크다.
+// min binary heap : 부모요소는 항상 자식요소보다 작다.
 // 힙을 배열로 늘어뜨려 정렬했을 때, 한 요소의 자식요소를 찾는 방법은 아래와 같다
 // 부모요소 index 가 n 일 때, left child index: 2n+1, right child index : 2n+2
 // 거꾸로 하면 한 요소의 부모요소도 찾을 수 있다. 자식요소 index 가 n 일 때, 부모요소 index : Math.floor(n-1/2)
 // https://cs.slides.com/colt_steele/heaps#/18
 
+// 시간복잡도 : insert / remove 모두 O(lonN), search O(N)
+// insert : n 이 2배가 되어도 부모 요소와 비교하는 횟수는 1번 증가한다.
+// remove : n 이 2배가 되어도 자식 요소와 비교하는 횟수는 1번 증가한다.
 class MaxBinaryHeap {
   constructor() {
     this.values = [];
@@ -53,6 +57,7 @@ class MaxBinaryHeap {
     return max;
   }
 
+  // 초기 version
   sinkDown1() {
     let currentIdx = 0;
     const current = this.values[currentIdx];
@@ -90,9 +95,9 @@ class MaxBinaryHeap {
       const rightIdx = 2 * currentIdx + 2;
       const left = this.values[leftIdx];
       const right = this.values[rightIdx];
-      // right 가 undefined 인 경우가 있다.
+      // maxCurrentIdx 는 left 의 존재만 보장하기 때문에 right 가 undefined 인 경우가 있다.
       // 바꿀 자식요소(=가장 큰 값)에 해당하는 swapIndex 를 먼저 지정하고 swap 한다.
-      const swapIdx = right ? (left >= right ? leftIdx : rightIdx) : leftIdx;
+      const swapIdx = right ? (left > right ? leftIdx : rightIdx) : leftIdx;
       const largestChild = this.values[swapIdx];
       if (current >= largestChild) break;
       this.values[swapIdx] = current;
