@@ -34,6 +34,65 @@ class Graph {
     }
     delete this.adjacencyList[vertex];
   }
+
+  recursiveDFS(startVertex) {
+    if (!this.adjacencyList[startVertex]) return false;
+    const visited = {};
+    const result = [];
+
+    const traverse = vertex => {
+      if (!vertex) return;
+      visited[vertex] = true;
+      result.push(vertex);
+      // 방문 여부는 재귀를 실행하기 전에 확인한다.
+      this.adjacencyList[vertex].forEach(adjacentVertex => {
+        if (visited[adjacentVertex]) return;
+        return traverse(adjacentVertex);
+      });
+    };
+
+    traverse(startVertex);
+    return result;
+  }
+
+  iterativeDFS(startVertex) {
+    if (!this.adjacencyList[startVertex]) return false;
+    const visited = {};
+    const result = [];
+    const stack = [startVertex];
+    visited[startVertex] = true;
+
+    while (stack.length) {
+      const currentVertex = stack.pop();
+      result.push(currentVertex);
+      // 방문여부는 stack 추가 전에 확인, 인접점들을 방문 표시한다. (stack 중복 push 방지)
+      this.adjacencyList[currentVertex].forEach(adjacentVertex => {
+        if (visited[adjacentVertex]) return;
+        visited[adjacentVertex] = true;
+        stack.push(adjacentVertex);
+      });
+    }
+    return result;
+  }
+
+  BFS(startVertex) {
+    if (!this.adjacencyList[startVertex]) return false;
+    const visited = {};
+    const result = [];
+    const queue = [startVertex];
+    visited[startVertex] = true;
+
+    while (queue.length) {
+      const currentVertex = queue.shift();
+      result.push(currentVertex);
+      this.adjacencyList[currentVertex].forEach(adjacentVertex => {
+        if (visited[adjacentVertex]) return;
+        visited[adjacentVertex] = true;
+        queue.push(adjacentVertex);
+      });
+    }
+    return result;
+  }
 }
 
 const graph = new Graph();
@@ -42,14 +101,19 @@ graph.addVertex('la');
 graph.addVertex('tokyo');
 graph.addVertex('texas');
 graph.addVertex('madrid');
+graph.addVertex('hawaii');
 graph.addEdge('seoul', 'la');
 graph.addEdge('seoul', 'madrid');
 graph.addEdge('seoul', 'texas');
 graph.addEdge('tokyo', 'la');
-graph.addEdge('texas', 'tokyo');
+graph.addEdge('texas', 'hawaii');
+graph.addEdge('tokyo', 'hawaii');
 graph.addEdge('texas', 'madrid');
 // graph.removeEdge('la', 'seoul');
 // console.log(graph.removeEdge('torino', 'seoul'));
-graph.removeVertex('seoul');
+// graph.removeVertex('seoul');
 
 console.log(graph.adjacencyList);
+console.log(graph.recursiveDFS('tokyo'));
+console.log(graph.iterativeDFS('tokyo'));
+console.log(graph.BFS('tokyo'));
