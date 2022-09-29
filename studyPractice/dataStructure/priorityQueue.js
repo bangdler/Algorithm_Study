@@ -1,6 +1,5 @@
 // priority queue 는 우선순위가 높은(숫자가 낮은) 것부터 처리해야한다.
 // 일반적으로 높거나 낮은 값부터 구성된 heap 을 활용한다.
-
 class Node {
   constructor(value, priority) {
     this.value = value;
@@ -87,3 +86,5 @@ console.log(pQue.dequeue());
 console.log(pQue.dequeue());
 console.log(pQue.dequeue());
 console.log(pQue.dequeue());
+
+module.exports = { PriorityQueue };
