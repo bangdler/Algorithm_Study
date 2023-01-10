@@ -1,0 +1,25 @@
+// https://school.programmers.co.kr/learn/courses/30/lessons/138476
+
+function solution(k, tangerine) {
+    var answer = 0;
+
+    const table = {};
+    for(let num of tangerine) {
+        if(table[num]) {
+            table[num] += 1
+        }
+        else {
+            table[num] = 1
+        }
+    }
+
+    // [개수] 형태의 내림차순 배열 만들기
+    const sorted = Object.values(table).sort((a,b)=> b - a )
+    let total = 0;
+    for(let num of sorted) {
+        if(total >= k) break;
+        total += num;
+        answer += 1;
+    }
+    return answer;
+}
