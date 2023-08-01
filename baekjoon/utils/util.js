@@ -9,4 +9,7 @@ function getInput(numOfProblem) {
   return input;
 }
 
+//  const fs = require('fs');
+//  const input = fs.readFileSync('/dev/stdin').toString().trim().split(/\n/);
+
 module.exports = getInput;
